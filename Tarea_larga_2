@@ -1,0 +1,186 @@
+#Aquí estarán los Scrpits solicitados
+
+# a)Datos en formato scv
+
+import pandas as pd
+new = ['Datos', input('Introduzca su lista de datos o texto: ' )]
+#Aquí introducimos los datos para crear una lista que los contenga
+list_texto = [new]  #(Ahora adentramos nuestra variable en una lista)
+
+dato = pd.DataFrame(list_texto)  #(Con ayuda de "pandas" logramos adentrar los datos en una 'tabla')
+dato #(Al igual que con las funciones llamamos a nuestra variable que "pandas" utilizó)
+
+dato.to_csv('data_datos.csv')   #(Con este código transformaremos nuestra serie de datos a un archivo CSV)
+
+
+
+
+
+
+
+
+# b)Ajuste lineal por mínimos cuadrados
+#A partir de los números dados le pediremos a nuestra computadora que interprete predicciones de modelos matemáticos
+#Encontraremos una tendencia entre una serie de datos
+#Importaremos toda la paquetería que utilizaremos
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn import datasets, linear_model
+
+#Tenemos que encontrar la ecuación de la forma y=mx+b que mejor se ajuste a los datos que tengan
+#Lo haremos a través de un ejemplo:
+
+x = [1, 2, 3, 4, 5]
+y = [1, 1, 2, 2, 3]
+
+#n será la cantidad de datos
+n = len(x)
+
+x = np.array(x)
+y = np.array(y)
+
+#Lo dejamos como array para evitar las operaciones de listas
+
+sum_x = sum(x)
+sum_y = sum(y)
+sum_x2 = sum(x*x)
+sum_y2 = sum(y*y)
+sum_xy = sum(x*y)
+
+#Ahora calularemos el promedio
+
+prom_x = sum_x/n
+prom_y = sum_y/n
+
+#Tenemos que calcular las variables "m" y "n"
+
+m = (sum_x*sum_y - n*sum_xy)/(sum_x**2 - n*sum_x2)
+b = prom_y - m*prom_x
+
+print(m, b)
+
+
+
+
+
+
+
+
+
+# c)Métodos para encontrar raíces
+
+x = [0, 1, 2, 3, 4, 5]
+y = [0, 1, 2, 3, 4, 5]
+
+x = np.array(x)
+y = np.array(y)
+
+#Nosotros lo haremos a través de la fórmula general
+
+import math
+
+def discriminante(a, b, c):
+    discrim = pow(b,2)-(4*a*c)
+    return discrim
+
+def raices(a, b, disc):
+    raiz_1 = (-b + math.sqrt(disc))/(2*a)
+    raiz_2 = (-b - math.sqrt(disc))/(2*a)
+    
+    return raiz_1, raiz_2
+
+a = int(input('a: '))
+b = int(input('b: '))
+c = int(input('c: '))
+
+disc = discriminante(a, b, c)
+if disc < 0:
+    print("No existen raices reales")
+    
+else:
+    print("Las raíces son: ", raices(a, b, disc))
+
+
+
+
+
+
+# d) Derivadas numéricas por diferencias finitas
+
+#Supongamos la ecuación 4x^3 + 3x^2 + 2x + 1
+
+#Comenzamos definiendo la función
+
+def f(x):
+    return 4*x**3 + 3*x**2 + 2*x + 1
+
+#n será el número de puntos
+n = 15
+#a y b serán nuestros límites
+a = -2
+b = 2
+
+x = np.linspace(a, b, n)
+dx = (b-a)/(n-1)
+
+y = f(x)
+
+#Ahora calulemos la derivada yp ([i], [i+1], [i-1])
+
+yp = np.zeros_like(x)
+
+for i in range(n):
+    if i == 0:
+        yp[i] = (y[i+1]-y[i])/dx
+        
+    elif i == n-1:
+        yp[i] = (y[i]-y[i-1])/dx
+            
+    else:
+        yp[i] = (y[i+1]-y[i-1])/(2*dx)
+
+#Aquí trabajaremos con la ecuación ya derivada
+def fp(x):
+    return 12*x**2 + 6*x + 2
+
+#El resultado de la derivada numérica es una función
+
+
+
+
+
+
+
+
+
+
+# e)Métods de integración
+#Supongamos que integraremos la ecuación: 1 - x^2
+
+#Comencemos por definir nuestra integral
+#Lo haremos por medio de la regla del trapecio
+
+def f(x):
+    return 1 - x**2  #El return es nuestra ecuación a integrar
+
+#Ahora definiremos nuestros límites de integración
+
+#a será el inicio de lasa particiones
+#b será el seiguiente punto de las particiones a partir de a
+a = 0
+b = 1
+
+#n será el número de veces en que dividiremos el área paraencontrar los trapecios
+n = 10
+x = np.linspace(a, b, n)
+dx = (b-a)/(n-1)
+In = 0
+
+for i in range(n-1):
+    Tr = (x[i+1]-x[i])*(f(x[i+1]) + f(x[i]))/2
+    
+    In = In + Tr
+    
+print("El resultado aproximado de la integral definida es: ", In)
+
